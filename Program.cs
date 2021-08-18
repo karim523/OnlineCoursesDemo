@@ -8,7 +8,7 @@ namespace SimpleObjects
         static void Main(string[] args)
         {
             var course = new Course();
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(course.Id.ToString());
         }
     }
 }
