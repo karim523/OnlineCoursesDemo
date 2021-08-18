@@ -1,4 +1,5 @@
 ﻿using System;
+using SimpleObjects.ContentContext;
 
 namespace SimpleObjects
 {
@@ -6,6 +7,7 @@ namespace SimpleObjects
     {
         static void Main(string[] args)
         {
+            var course = new Course();
             Console.WriteLine("Hello World!");
         }
     }
