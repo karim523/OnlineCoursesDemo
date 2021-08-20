@@ -1,7 +1,7 @@
 using System;
 using SimpleObjects.NotificationContext;
 
-namespace SimpleObjects.ContentContext
+namespace SimpleObjects.SharedContext
 {
     public abstract class Base : Notifiable
     {

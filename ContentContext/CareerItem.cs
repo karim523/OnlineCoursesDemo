@@ -1,5 +1,6 @@
 using System;
 using SimpleObjects.NotificationContext;
+using SimpleObjects.SharedContext;
 
 namespace SimpleObjects.ContentContext
 {

@@ -1,4 +1,6 @@
 using SimpleObjects.ContentContext.Enums;
+using SimpleObjects.SharedContext;
+
 
 namespace SimpleObjects.ContentContext
 {

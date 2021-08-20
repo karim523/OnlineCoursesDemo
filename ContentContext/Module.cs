@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using SimpleObjects.SharedContext;
+
 
 namespace SimpleObjects.ContentContext
 {

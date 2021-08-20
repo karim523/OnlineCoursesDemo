@@ -1,4 +1,4 @@
-using System;
+using SimpleObjects.SharedContext;
 namespace SimpleObjects.ContentContext
 {
     public abstract class Content : Base
