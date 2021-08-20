@@ -16,7 +16,7 @@ namespace SimpleObjects.SubscriptionContext
         {
             if(IsPremium)
             {
-                AddNotification(new Notification("Premiun","This Students already have an Active Subscription"));
+                AddNotification(new Notification("Premiun","This Students already has an Active Subscription"));
                 return;
             }
             Subscriptions.Add(subscription);

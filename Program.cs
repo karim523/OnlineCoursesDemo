@@ -10,9 +10,9 @@ namespace SimpleObjects
         static void Main(string[] args)
         {
             var articles = new List<Article>();
-            articles.Add(new Article("Artigo sobre OOP","orientacao-objetos"));
-            articles.Add(new Article("Artigo sobre C#","csharp"));
-            articles.Add(new Article("Artigo sobre .NET","net"));
+            articles.Add(new Article("Article about OOP","orientation-object-programming"));
+            articles.Add(new Article("Article about C#","csharp"));
+            articles.Add(new Article("Article about .NET","net"));
             
             // foreach(var article in articles)
             // {
@@ -22,18 +22,18 @@ namespace SimpleObjects
             // }
 
             var courses = new List<Course>();
-            var courseOOP = new Course("Fundamentos OOP", "fundamentos-oop");
-            var courseCsharp = new Course("Fundamentos C#", "fundamentos-csharp");
-            var courseAspNet = new Course("Fundamentos APS.NET", "fundamentos-asp-net");
+            var courseOOP = new Course("Fundamentals of OOP", "fundamentals-of-oop");
+            var courseCsharp = new Course("Fundamentals of C#", "fundamentals-of-csharp");
+            var courseAspNet = new Course("Fundamentals of APS.NET", "fundamentals-of-asp-net");
             courses.Add(courseOOP);
             courses.Add(courseCsharp);
             courses.Add(courseAspNet);
 
             var careers = new List<Career>();
-            var careerDotnet = new Career("Especialista .NET","especialista-dotnet");
-            var careerItem1 = new CareerItem(1,"Comece por Aqui", "", courseCsharp);
-            var careerItem2 = new CareerItem(2,"Aprenda OOP", "", courseOOP);
-            var careerItem3 = new CareerItem(3,"Aprenda .NET", "", null);
+            var careerDotnet = new Career(".NET expert","dotnet-expert");
+            var careerItem1 = new CareerItem(1,"Start Here", "", courseCsharp);
+            var careerItem2 = new CareerItem(2,"Learn OOP", "", courseOOP);
+            var careerItem3 = new CareerItem(3,"Learn .NET", "", null);
             careerDotnet.Items.Add(careerItem2);
             careerDotnet.Items.Add(careerItem3);
             careerDotnet.Items.Add(careerItem1);
