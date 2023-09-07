@@ -29,7 +29,7 @@ namespace SimpleObjects.SubscriptionContext
             if (IsWatched)
             {
                 var oldWatchedLecture = WatchedLectures.First(x => x.Lecture == watchedLecture.Lecture);
-                int result = DateTime.Compare(oldWatchedLecture.DateOfWatchingOfLect, watchedLecture.DateOfWatchingOfLect);
+                int result = DateTime.Compare(oldWatchedLecture.WatchedDate, watchedLecture.WatchedDate);
                 if(result==0)
                 {
                     return;
@@ -37,13 +37,13 @@ namespace SimpleObjects.SubscriptionContext
 
                 else if (result < 0)
                 {
-                    AddNotification(new Notification($"The Data:{watchedLecture.DateOfWatchingOfLect}"," is old"));
+                    AddNotification(new Notification($"The Data:{watchedLecture.WatchedDate}"," is old"));
                     return;
                 }
 
                 else
                 {
-                    oldWatchedLecture.DateOfWatchingOfLect = watchedLecture.DateOfWatchingOfLect;
+                    oldWatchedLecture.WatchedDate = watchedLecture.WatchedDate;
                     return;
                 }
 

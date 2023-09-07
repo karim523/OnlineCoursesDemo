@@ -6,6 +6,7 @@ namespace SimpleObjects.ContentContext
 {
     public class CareerItem : Base
     {
+        private CareerItem() { }
         public CareerItem(int order, string title, string description, Course course)
         {
             if(course == null)            

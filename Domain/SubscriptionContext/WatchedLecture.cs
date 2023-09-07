@@ -1,4 +1,5 @@
 ﻿using SimpleObjects.ContentContext;
+using SimpleObjects.SharedContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,24 +8,28 @@ using System.Threading.Tasks;
 
 namespace SimpleObjects.SubscriptionContext
 {
-    public class WatchedLecture:IEquatable<WatchedLecture>
+    public class WatchedLecture:Base,IEquatable<WatchedLecture>
     {
-        public WatchedLecture(Student student, Lecture lecture, DateTime dateOfWatchingOfLect)
+        private WatchedLecture()
+        {
+            
+        }
+        public WatchedLecture(Student student, Lecture lecture, DateTime watchedData)
         {
             Student = student;
             Lecture = lecture;
-            DateOfWatchingOfLect = dateOfWatchingOfLect;
+            WatchedDate = watchedData;
             
         }
 
         public Student Student { get; set; }
         public Lecture Lecture { get; set; }
-        public DateTime DateOfWatchingOfLect { get; set; }
+        public DateTime WatchedDate { get; set; }
 
         public bool Equals(WatchedLecture other)
         {
             if(other is null) return false;
-            return other.Student == Student && other.Lecture == Lecture && other.DateOfWatchingOfLect == DateOfWatchingOfLect;
+            return other.Student == Student && other.Lecture == Lecture && other.WatchedDate == WatchedDate;
         }
     }
 }
