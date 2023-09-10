@@ -6,14 +6,17 @@ using SimpleObjects.ContentContext;
 using SimpleObjects.NotificationContext;
 using SimpleObjects.SharedContext;
 using SimpleObjects.SubscriptionContext;
+using System;
 
 namespace Infrastructure
 {
     public class AppDBContext :DbContext
     {
-        
-        protected override void OnConfiguring(DbContextOptionsBuilder options) =>
-         options.UseSqlServer(@"Data Source=KARIMKESHTA;Database=OnlineCourse;Integrated Security=True;trusted_connection=True;TrustServerCertificate=True;");
+
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
+        {
+
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
  

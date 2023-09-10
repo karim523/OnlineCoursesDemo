@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Domain.SharedContext;
 using SimpleObjects.NotificationContext;
 using SimpleObjects.SharedContext;
 
 namespace SimpleObjects.SubscriptionContext
 {
-    public class Student : Base
+    public class Student : Base,IEntity
     {
-        public User User { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
+        public User User { get; private set; }
+        public string Name { get;private set; }
+        public string Email { get;private set; }
         public IList<Subscription> Subscriptions { get; set; }
         public IList<WatchedLecture> WatchedLectures { get; set; }
         public bool IsPremium => Subscriptions.Any(x => !x.IsInactive);
@@ -50,6 +51,33 @@ namespace SimpleObjects.SubscriptionContext
             }                
                 WatchedLectures.Add(watchedLecture);
         }
-    
+    public static Student SignUp(string name,string email,User user) 
+        {
+            var student=new Student();
+            student.SetName(name);
+            student.SetEmail(email);
+            student.SetUser(user);
+            return student;
+        }
+        private void SetName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException("Invalid Name");
+
+            if (!(name.Length >= 3 && name.Length <= 150)) throw new ArgumentException("Invalid Name");
+            Name = name;
+        }
+
+        private void SetEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email)) throw new ArgumentNullException("Invalid Email");
+            Email = email;
+        }
+
+        private void SetUser(User user) 
+        {
+            if (user == null) throw new ArgumentNullException("user invaild");
+            User = user;
+        }
+
     }
 }
