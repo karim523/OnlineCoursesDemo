@@ -1,4 +1,5 @@
 using Application.Students;
+using Application.Courses;
 using Domain;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(
    builder.Configuration.GetConnectionString("DefaultConnection")
    ));
+
 builder.Services.AddTransient(typeof(IRepository<>),typeof(MainRepository<>));
+builder.Services.AddTransient<ICoursesService, CoursesService>();
+
 builder.Services.AddTransient<IStudentsService, StudentsService>();
 
 builder.Services.AddControllers();

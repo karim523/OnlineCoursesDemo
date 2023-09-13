@@ -19,7 +19,7 @@ namespace OnlineCourseApi.Controllers
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp(SignUpInputDto inputDto )
         {
-            var outputDto =await _studentService.SignUp(inputDto);
+            var outputDto = await _studentService.SignUp(inputDto);
 
             return Ok(outputDto);
         }
