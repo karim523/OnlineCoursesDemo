@@ -36,10 +36,12 @@ namespace SimpleObjects.ContentContext
         internal Notification AddLecture(Lecture lecture)
         {
               
-            var orderTitleLevelLecture = _lectures.Any(l => l.Order == lecture.Order||( l.Level == lecture.Level && l.Title == lecture.Title));
+            var orderTitleLevelLecture = _lectures
+                .Any(l => l.Order == lecture.Order||( l.Level == lecture.Level && l.Title == lecture.Title));
+           
             if (orderTitleLevelLecture)
             {
-                 return new Notification($"This Lecture", "is here");
+                 return new Notification($"This Lecture of {lecture.Title}", "is found");
             }
             _lectures.Add(lecture);
             return null;

@@ -29,7 +29,18 @@ namespace Application.Courses
                 {
                     var moduleDto = new Module(inputModuleDto.Order, inputModuleDto.Title);
                     
-                    courseDto.AddModule(moduleDto);
+                    var  moduleResult = courseDto.AddModule(moduleDto);
+
+                    if ((!moduleResult) && courseDto.IsInvalid)
+                    {
+
+                        var outputError = new AddCourceOutputDto
+                        {
+                            Erorrs = courseDto.Notifications
+                        };
+
+                        return outputError;
+                    }
 
                     if (inputModuleDto.Lectures is not null)
                     {
@@ -37,26 +48,25 @@ namespace Application.Courses
                         foreach (var inputLectureDto in inputModuleDto.Lectures)
                         {
                             var lectureDto = new Lecture(inputLectureDto.Order, inputLectureDto.Title, inputLectureDto.DurationInMinutes, inputLectureDto.Level);
-                           
-                           
-                            courseDto.AddLecture(moduleDto.Order,lectureDto);
+
+                            var lectureResult = courseDto.AddLecture(moduleDto.Order,lectureDto);
+
+                            if ((!lectureResult) && courseDto.IsInvalid)
+                            {
+
+                                var outputError = new AddCourceOutputDto
+                                {
+                                    Erorrs = courseDto.Notifications
+                                };
+
+                                return outputError;
+
+                            }
                         }
-                    }                  
-
-                    if (courseDto.IsInvalid)
-                    {
-                        var outputError = new AddCourceOutputDto
-                        {
-                            Erorrs = courseDto.Notifications
-                        };
-
-
-                        return outputError;
-                    }
-
+                    }                 
                 }
             }
-
+                      
             await _repository.Create(courseDto);
 
             await _unitOfWork.Commit();
@@ -75,6 +85,19 @@ namespace Application.Courses
             var course =await _coursesRepository.GetCourse(inputDto.CourseId);
 
             var moduleDto = new Module(inputDto.Order, inputDto.Title);
+            
+            var moduleResult = course.AddModule(moduleDto);
+
+            if ((!moduleResult) && course.IsInvalid)
+            {
+                var outputError = new AddModuleOutputDto
+                {
+                    Erorrs = course.Notifications
+                };
+
+                return outputError;
+
+            }
 
             if (inputDto.Lectures is not null)
             {
@@ -83,33 +106,22 @@ namespace Application.Courses
                 {
                     var lectureDto = new Lecture(inputLectureDto.Order, inputLectureDto.Title, inputLectureDto.DurationInMinutes, inputLectureDto.Level);                  
 
-                    if (course.IsInvalid)
+                    
+                     var lectureResult = course.AddLecture(moduleDto.Order, lectureDto);
+
+                    if ((!lectureResult) && course.IsInvalid)
                     {
                         var outputError = new AddModuleOutputDto
                         {
                             Erorrs = course.Notifications
                         };
 
-
                         return outputError;
+
                     }
-                    course.AddLecture(moduleDto.Order, lectureDto);
                 }
-
             }
 
-            course.AddModule(moduleDto);
-
-            if (course.IsInvalid)
-            {
-                var outputError = new AddModuleOutputDto
-                {
-                    Erorrs = course.Notifications
-                };
-
-
-                return outputError;
-            }
             await _unitOfWork.Commit();
            
             var outputDto = new AddModuleOutputDto()
@@ -117,9 +129,7 @@ namespace Application.Courses
                 ModuleId = moduleDto.Id
             };
 
-            return outputDto;
-
-            
+            return outputDto;           
         }
 
         public async Task<AddLectureOutputDto> AddLecture(AddLectureInputDto inputDto)
@@ -128,20 +138,18 @@ namespace Application.Courses
 
             var lectureDto = new Lecture(inputDto.Order, inputDto.Title, inputDto.DurationInMinutes, inputDto.Level);
 
-            
-            if (course.IsInvalid)
+            var lectureResult=  course.AddLecture(inputDto.ModuleId, lectureDto);
+
+            if (!lectureResult && course.IsInvalid)
             {
                 var outputError = new AddLectureOutputDto
                 {
                     Erorrs = course.Notifications
                 };
 
-
                 return outputError;
+
             }
-
-            course.AddLecture(inputDto.ModuleId, lectureDto);
-
             await _unitOfWork.Commit();
             var outputDto = new AddLectureOutputDto()
             {
@@ -149,8 +157,6 @@ namespace Application.Courses
             };
 
             return outputDto;
-
         }   
-     
     }
 }

@@ -33,43 +33,49 @@ namespace SimpleObjects.ContentContext
         } 
         public int DurationInMinutes { get;private set; }
         public EContentLevel Level { get;private set; }
-        public void AddModule(Module module)
+        public bool AddModule(Module module)
         {
             var titleAndOrderModule= _modules.Any(m=>m.Title == module.Title|| m.Order == module.Order);
 
             if (titleAndOrderModule)
             {
-                AddNotification(new Notification($"This Module", " is here"));
-                return;
+                AddNotification(new Notification($"This Module of {module.Title}", " is found"));
+                return false;
             }
             _modules.Add(module);
             CalculateDuration();
+            return true;
         }
-        public void AddLecture(Guid moduleId , Lecture lecture)
+        public bool AddLecture(Guid moduleId , Lecture lecture)
         {
            var module =_modules.FirstOrDefault(x=>x.Id == moduleId);
        
             if (module == null)
             {
-                AddNotification(new Notification($"This Module", " is not here"));
-                return;
+                AddNotification(new Notification($"This Module", " is not found"));
+                return false;
             }
             
             module.AddLecture(lecture);
            
             CalculateDuration();
-
+            return true;
         } 
-        public void AddLecture(int order, Lecture lecture)
+        public bool AddLecture(int order, Lecture lecture)
         {
-                var module =_modules.FirstOrDefault(x=>x.Order == order);
+             var module =_modules.FirstOrDefault(x=>x.Order == order);
                   
-                module.AddLecture(lecture);
-
+             var result = module.AddLecture(lecture);
+            
+            if (result == null)
+            {
                 CalculateDuration();
+                
+                return true;
+            }
+            AddNotification(result);
+            return false;
         }
-       
-
         private void CalculateDuration()
         {
             DurationInMinutes = _modules.Sum(m => m.Lectures.Sum(l => l.DurationInMinutes));
