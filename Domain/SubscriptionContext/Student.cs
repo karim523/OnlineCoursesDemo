@@ -7,7 +7,7 @@ using SimpleObjects.SharedContext;
 
 namespace SimpleObjects.SubscriptionContext
 {
-    public class Student : Base,IEntity
+    public class Student : Notifiable,IEntity
     {
         public User User { get; private set; }
         public string Name { get;private set; }

@@ -20,7 +20,6 @@ namespace Infrastructure.Configurations
 
             builder.Property(x => x.Order).IsRequired();
             
-            builder.Ignore(x => x.Notifications);
 
             builder.HasOne<Course>()
                   .WithMany(c=>c.Modules)

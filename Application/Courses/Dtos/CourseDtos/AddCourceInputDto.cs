@@ -1,10 +1,8 @@
-﻿using SimpleObjects.ContentContext;
-using SimpleObjects.ContentContext.Enums;
-using System.Runtime.InteropServices;
+﻿using SimpleObjects.ContentContext.Enums;
 
-namespace Application.Courses.Dtos
+namespace Application.Courses.Dtos.CourseDtos
 {
-    
+
     public class AddCourseInputDto
     {
         public string Title { get; set; }
@@ -17,7 +15,7 @@ namespace Application.Courses.Dtos
     {
         public int Order { get; set; }
         public string Title { get; set; }
-        public List<LectureDto>? Lectures { get; set; } 
+        public List<LectureDto>? Lectures { get; set; }
 
     }
     public class LectureDto
@@ -26,5 +24,5 @@ namespace Application.Courses.Dtos
         public string Title { get; set; }
         public int DurationInMinutes { get; set; }
         public EContentLevel Level { get; set; }
-    } 
+    }
 }

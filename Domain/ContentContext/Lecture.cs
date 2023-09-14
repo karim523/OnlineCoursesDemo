@@ -1,3 +1,4 @@
+using Domain.SharedContext;
 using SimpleObjects.ContentContext.Enums;
 using SimpleObjects.NotificationContext;
 using SimpleObjects.SharedContext;
@@ -32,20 +33,19 @@ namespace SimpleObjects.ContentContext
                 throw new Exception($"The Duration {durationInMinutes} is invalid");
             }
         }
-        public void UpdateDuration(int durationInMinutes)
+        internal Notification UpdateDuration(int durationInMinutes)
         {
 
             if (IsDurationCorrect(durationInMinutes))
             {
                 DurationInMinutes = durationInMinutes;
+                return null;
             }
 
-            else
-            {
-                AddNotification(new Notification($"The Duration In Minutes", $" Of Order Lecture {Order} is invalid"));
-            }
+                return new Notification($"The Duration In Minutes", $" Of Order Lecture {Order} is invalid");
+                      
         }
-        bool IsDurationCorrect (int durationInMinutes)
+        private  bool IsDurationCorrect (int durationInMinutes)
         {
             return (durationInMinutes < 180 && durationInMinutes > 1);
         }

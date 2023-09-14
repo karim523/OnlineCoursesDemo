@@ -21,8 +21,6 @@ namespace Infrastructure.Configurations
 
             builder.Property(x => x.Description).IsRequired().HasMaxLength(512);
             
-            builder.Ignore(x => x.Notifications);
-            
             builder.HasOne(c=>c.Course)
                 .WithMany()
                 .IsRequired();

@@ -23,8 +23,6 @@ namespace Infrastructure.Configurations
 
             builder.Property(x => x.DurationInMinutes).IsRequired();
             
-            builder.Ignore(x => x.Notifications);
-
             builder.HasOne<Module>()
                .WithMany(m=>m.Lectures)
                .IsRequired();

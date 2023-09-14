@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.SharedContext
+namespace Domain
 {
-    public interface IEntity
+    public interface IUnitOfWork
     {
+        Task<int> Commit();
     }
 }

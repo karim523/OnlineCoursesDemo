@@ -19,7 +19,6 @@ namespace Infrastructure.Configurations
 
             builder.Property(x=> x.Url).IsRequired().HasMaxLength(256);
 
-            builder.Ignore(x => x.Notifications);
         }
     }
 }

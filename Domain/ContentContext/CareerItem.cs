@@ -10,7 +10,7 @@ namespace SimpleObjects.ContentContext
         public CareerItem(int order, string title, string description, Course course)
         {
             if(course == null)            
-                AddNotification(new Notification("Course", "Invalid course"));
+               throw new Exception("Course Invalid course");
             Order = order;
             Title = title;
             Description = description;

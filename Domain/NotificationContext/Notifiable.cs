@@ -1,23 +1,25 @@
+using SimpleObjects.SharedContext;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SimpleObjects.NotificationContext
 {
-    public abstract class Notifiable
+    public abstract class Notifiable:Base
     {
-        public List<Notification> Notifications { get; set; }
-        public bool IsInvalid => Notifications.Any();
+        private readonly List<Notification> _notifications;
+        public bool IsInvalid => _notifications.Any();
+        public List<string> Notifications => _notifications.Select(a => a.ToString()).ToList();
         public Notifiable()
         {
-            Notifications = new List<Notification>();
+            _notifications = new List<Notification>();
         }
         public void AddNotification(Notification notification)
         {
-            Notifications.Add(notification);
+            _notifications.Add(notification);
         }
         public void AddNotifications(IEnumerable<Notification> notifications)
         {
-            Notifications.AddRange(notifications);
+            _notifications.AddRange(notifications);
         }
     }
 }

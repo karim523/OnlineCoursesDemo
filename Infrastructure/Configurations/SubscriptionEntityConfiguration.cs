@@ -17,7 +17,6 @@ namespace Infrastructure.Configurations
 
             builder.Property(x => x.EndDate).IsRequired();
 
-            builder.Ignore(x => x.Notifications);
 
             builder.HasOne(s => s.Plan)
                   .WithMany()

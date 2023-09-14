@@ -20,7 +20,6 @@ namespace Infrastructure.Configurations
             builder.Property(x => x.Password).IsRequired().HasMaxLength(150);
 
 
-            builder.Ignore(x => x.Notifications);
         }
     }
 }

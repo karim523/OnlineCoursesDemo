@@ -1,5 +1,8 @@
-﻿using Application.Courses.Dtos;
+﻿using Application.Courses.Dtos.CourseDtos;
+using Application.Courses.Dtos.LectureDtos;
+using Application.Courses.Dtos.ModuleDtos;
 using Domain;
+using Domain.ContentContext;
 using SimpleObjects.ContentContext;
 
 namespace Application.Courses
@@ -7,13 +10,16 @@ namespace Application.Courses
     public class CoursesService:ICoursesService
     {
         private readonly IRepository<Course> _repository;
-
-        public CoursesService( IRepository<Course> repository)
+        private readonly ICourseRepository _coursesRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public CoursesService(IRepository<Course> repository, IUnitOfWork unitOfWork, ICourseRepository coursesRepository)
         {
             _repository = repository;
+            _unitOfWork = unitOfWork;
+            _coursesRepository = coursesRepository;
         }
 
-        public async Task<AddCourceOutputDto> Add(AddCourseInputDto inputDto)
+        public async Task<AddCourceOutputDto> AddCourse(AddCourseInputDto inputDto)
         {
             var courseDto = new Course(inputDto.Title, inputDto.Url, inputDto.Level, inputDto.Tag);
 
@@ -22,6 +28,8 @@ namespace Application.Courses
                 foreach (var inputModuleDto in inputDto.Modules)
                 {
                     var moduleDto = new Module(inputModuleDto.Order, inputModuleDto.Title);
+                    
+                    courseDto.AddModule(moduleDto);
 
                     if (inputModuleDto.Lectures is not null)
                     {
@@ -29,23 +37,120 @@ namespace Application.Courses
                         foreach (var inputLectureDto in inputModuleDto.Lectures)
                         {
                             var lectureDto = new Lecture(inputLectureDto.Order, inputLectureDto.Title, inputLectureDto.DurationInMinutes, inputLectureDto.Level);
-
-                            moduleDto.AddLecture(lectureDto);
+                           
+                           
+                            courseDto.AddLecture(moduleDto.Order,lectureDto);
                         }
+                    }                  
 
-                        courseDto.AddModule(moduleDto);
+                    if (courseDto.IsInvalid)
+                    {
+                        var outputError = new AddCourceOutputDto
+                        {
+                            Erorrs = courseDto.Notifications
+                        };
+
+
+                        return outputError;
                     }
+
                 }
             }
 
             await _repository.Create(courseDto);
-         
-            var outputDto= new AddCourceOutputDto
+
+            await _unitOfWork.Commit();
+
+            var outputDto = new AddCourceOutputDto
             {
                 Id=courseDto.Id,
             };
 
             return outputDto;
         }
+      
+        public async Task<AddModuleOutputDto> AddModule(AddModuleInputDto inputDto)
+        {
+
+            var course =await _coursesRepository.GetCourse(inputDto.CourseId);
+
+            var moduleDto = new Module(inputDto.Order, inputDto.Title);
+
+            if (inputDto.Lectures is not null)
+            {
+
+                foreach (var inputLectureDto in inputDto.Lectures)
+                {
+                    var lectureDto = new Lecture(inputLectureDto.Order, inputLectureDto.Title, inputLectureDto.DurationInMinutes, inputLectureDto.Level);                  
+
+                    if (course.IsInvalid)
+                    {
+                        var outputError = new AddModuleOutputDto
+                        {
+                            Erorrs = course.Notifications
+                        };
+
+
+                        return outputError;
+                    }
+                    course.AddLecture(moduleDto.Order, lectureDto);
+                }
+
+            }
+
+            course.AddModule(moduleDto);
+
+            if (course.IsInvalid)
+            {
+                var outputError = new AddModuleOutputDto
+                {
+                    Erorrs = course.Notifications
+                };
+
+
+                return outputError;
+            }
+            await _unitOfWork.Commit();
+           
+            var outputDto = new AddModuleOutputDto()
+            {
+                ModuleId = moduleDto.Id
+            };
+
+            return outputDto;
+
+            
+        }
+
+        public async Task<AddLectureOutputDto> AddLecture(AddLectureInputDto inputDto)
+        {
+            var course =await _coursesRepository.GetCourse(inputDto.CourseId);
+
+            var lectureDto = new Lecture(inputDto.Order, inputDto.Title, inputDto.DurationInMinutes, inputDto.Level);
+
+            
+            if (course.IsInvalid)
+            {
+                var outputError = new AddLectureOutputDto
+                {
+                    Erorrs = course.Notifications
+                };
+
+
+                return outputError;
+            }
+
+            course.AddLecture(inputDto.ModuleId, lectureDto);
+
+            await _unitOfWork.Commit();
+            var outputDto = new AddLectureOutputDto()
+            {
+                Id = lectureDto.Id
+            };
+
+            return outputDto;
+
+        }   
+     
     }
 }

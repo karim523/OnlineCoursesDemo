@@ -1,15 +1,12 @@
 ﻿using Domain.SharedContext;
-using SimpleObjects.SubscriptionContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain
 {
-    public interface IRepository<T> where T : IEntity
+    public interface IRepository<T> where T : class,IEntity
     {
-        Task Create (T myItem);
+        Task Create(T myItem);
+     
+         
     }
 }

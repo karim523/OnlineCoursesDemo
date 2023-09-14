@@ -18,7 +18,6 @@ namespace Infrastructure.Configurations
 
             builder.Property(x => x.WatchedDate).IsRequired();
             
-            builder.Ignore(x => x.Notifications);
             
             builder.HasOne(w=>w.Student)
                 .WithMany(s => s.WatchedLectures)

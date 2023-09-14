@@ -19,7 +19,6 @@ namespace Infrastructure.Configurations
             
             builder.Property(x => x.Price).IsRequired();
             
-            builder.Ignore(x => x.Notifications);
         }
     }
 }
