@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using Domain.SharedContext;
+using SimpleObjects.ContentContext.Enums;
 using SimpleObjects.NotificationContext;
 using SimpleObjects.SharedContext;
 
@@ -17,9 +15,9 @@ namespace SimpleObjects.ContentContext
 
         public Module(int order, string title)
         {
-            Order = order;
-            Title = title;
-            _lectures = new List<Lecture>(); 
+            SetOrder(order);
+            SetTitle(title);
+            _lectures = new List<Lecture>();
         }
 
         public int Order { get;private set; }
@@ -45,6 +43,39 @@ namespace SimpleObjects.ContentContext
             }
             _lectures.Add(lecture);
             return null;
+        }
+        internal Notification DeleteLecture(Guid lectureId)
+        {
+            var lecture=_lectures.FirstOrDefault(l => l.Id == lectureId);
+            if (lecture == null) 
+            {
+                return new Notification("Lecture","is not Found");
+            }
+            _lectures.Remove(lecture);
+            return null;
+        }
+        internal Notification SetOrder(int order)
+        {
+            if (order < 0)
+            {
+                return new Notification("Order", $"is invaild");
+            }
+            Order = order;
+            return null;
+        }
+        internal Notification SetTitle(string title)
+        {
+            if (string.IsNullOrWhiteSpace(title) || title.Length > 100)
+            {
+                return new Notification("Title", $"is invaild");
+            }
+            Title = title;
+            return null;
+        }
+        internal bool IsLectureExist(int oreder,string title,EContentLevel level, Guid lectureId)
+        {
+            return _lectures
+                   .Any(l => (l.Order == oreder || (l.Level == level && l.Title == title)) && l.Id != lectureId);
         }
     }
 }

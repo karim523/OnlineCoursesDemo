@@ -1,4 +1,3 @@
-
 namespace SimpleObjects.NotificationContext
 {
     public sealed class Notification

@@ -1,4 +1,4 @@
-﻿using Domain.ContentContext;
+﻿using Domain.ContentContext.IRepository;
 using Microsoft.EntityFrameworkCore;
 using SimpleObjects.ContentContext;
 
@@ -12,13 +12,22 @@ namespace Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
-        public Task<Course> GetCourse(Guid courseId)
+        public Course GetCourse(Guid courseId)
         {
             return _dbContext.Courses
                 .Include(c => c.Modules)
                 .ThenInclude(x => x.Lectures)
-                .FirstOrDefaultAsync(x => x.Id == courseId);
+                .FirstOrDefault(x => x.Id == courseId);
+        }
+        public void Delete(Course course)
+        {            
+                _dbContext.Courses.Remove(course);
+            
         }
 
+        public void Update(Course course)
+        {
+             _dbContext.Courses.Update(course);
+        }
     }
 }

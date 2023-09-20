@@ -40,5 +40,49 @@ namespace OnlineCourseApi.Controllers
             return Ok(outputDto);
         }
 
+
+        [HttpPut("UpdateCourse")]
+        public async Task  <IActionResult> UpdateCourse(UpdateCourseIntputDto intputDto)
+        {
+            var outputDto =await  _coursesService.UpdateCourse(intputDto);
+            return Ok(outputDto);
+        }
+
+        [HttpPut("UpdateModule")]
+        public async Task <IActionResult> UpdateModule(UpdateModuleInputDto intputDto)
+        {
+            var outputDto = await _coursesService.UpdateModule(intputDto);
+            return Ok(outputDto);
+        }
+
+        [HttpPut("UpdateLecture")]
+        public async Task <IActionResult> UpdateLecture(UpdateLectureInputDto intputDto)
+        {
+            var outputDto = await _coursesService.UpdateLecture(intputDto);
+            return Ok(outputDto);
+        }
+      
+        
+
+        [HttpDelete("DeleteCourse")]
+        public async Task <IActionResult> DeleteCourse(DeleteCourseInputDto inputDto)
+        {
+            var ouputDto =await  _coursesService.DeleteCourse(inputDto);
+            return Ok(ouputDto);
+        }
+
+        [HttpDelete("DeleteModule")]
+        public async Task <IActionResult> DeleteModule(DeleteModuleInputDto inputDto)
+        {
+            var ouputDto =await _coursesService.DeleteModule(inputDto);
+            return Ok(ouputDto);
+        }
+
+        [HttpDelete("DeleteLecture")]
+        public async Task <IActionResult> DeleteLecture(DeleteLectureInputDto inputDto)
+        {
+            var ouputDto =await  _coursesService.DeleteLecture(inputDto);
+            return Ok(ouputDto);
+        }
     }
 }

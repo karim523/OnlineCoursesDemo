@@ -3,8 +3,8 @@ using Application.Courses;
 using Domain;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Domain.ContentContext;
 using Infrastructure.Repositories;
+using Domain.ContentContext.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +16,8 @@ builder.Services.AddTransient(typeof(IRepository<>),typeof(MainRepository<>));
 builder.Services.AddTransient(typeof(ICourseRepository),typeof(CourseRepository));
 
 builder.Services.AddTransient<ICoursesService, CoursesService>();
-
 builder.Services.AddTransient<IStudentsService, StudentsService>();
+
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
