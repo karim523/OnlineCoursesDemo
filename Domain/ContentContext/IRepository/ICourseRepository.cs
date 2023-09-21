@@ -1,5 +1,6 @@
 ﻿using SimpleObjects.ContentContext;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Domain.ContentContext.IRepository
@@ -7,8 +8,9 @@ namespace Domain.ContentContext.IRepository
     public interface ICourseRepository
     {
         void Delete(Course course);
-        void Update(Course course);
-
-        Course GetCourse(Guid courseId);
+        Task<Course?> GetCourse(Guid courseId);
+        Task<Lecture?> GetLecture(Guid lectureId);
+        Task<Module?> GetModule(Guid moduleId);
+        Task<List<Course>> GetAllCourse();
     }
 }

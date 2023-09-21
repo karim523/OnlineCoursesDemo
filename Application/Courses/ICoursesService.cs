@@ -19,5 +19,12 @@ namespace Application.Courses
         Task<DeleteModuleOutputDto> DeleteModule(DeleteModuleInputDto inputDto);
         Task<DeleteLectureOutputDto> DeleteLecture(DeleteLectureInputDto inputDto);
 
+
+        Task<List<CourseDto>> GetAllCourse();
+
+        Task <CourseDto> GetCourse(GetCourseInputDto input);
+        Task<GetModuleOutputDto> GetModule(GetModuleInputDto input);
+        Task<GetLectureOutputDto> GetLecture(GetLectureInputDto input);
+
     }
 }

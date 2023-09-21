@@ -12,22 +12,33 @@ namespace Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
-        public Course GetCourse(Guid courseId)
+        public  Task<Course?> GetCourse(Guid courseId)
         {
-            return _dbContext.Courses
+            return  _dbContext.Courses
                 .Include(c => c.Modules)
                 .ThenInclude(x => x.Lectures)
-                .FirstOrDefault(x => x.Id == courseId);
+                .FirstOrDefaultAsync(x => x.Id == courseId);
+        }
+        public Task <Module?> GetModule(Guid moduleId) 
+        {
+            return _dbContext.Modules
+                .Include(m=>m.Lectures)
+                .FirstOrDefaultAsync (m => m.Id == moduleId);
+        }
+        public Task<Lecture?> GetLecture(Guid lectureId)
+        {
+            return _dbContext.Lectures
+                .FirstOrDefaultAsync(l => l.Id == lectureId);
         }
         public void Delete(Course course)
         {            
-                _dbContext.Courses.Remove(course);
-            
+              _dbContext.Courses.Remove(course);           
         }
 
-        public void Update(Course course)
+        public Task<List<Course>> GetAllCourse()
         {
-             _dbContext.Courses.Update(course);
+         return  _dbContext.Courses.Include(c=>c.Modules).ThenInclude(m=>m.Lectures).ToListAsync();
+ 
         }
     }
 }

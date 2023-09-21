@@ -84,5 +84,33 @@ namespace OnlineCourseApi.Controllers
             var ouputDto =await  _coursesService.DeleteLecture(inputDto);
             return Ok(ouputDto);
         }
+
+
+        [HttpGet("GetAllCourses")]
+        public async Task<IActionResult> GetAllCourse()
+        {
+            var output= await _coursesService.GetAllCourse();
+            return Ok(output);
+        }
+
+
+        [HttpGet("GetCourse")]
+        public async Task< IActionResult> GetCourse(GetCourseInputDto input)
+        {
+            var output =await _coursesService.GetCourse(input);
+            return Ok(output);
+        }
+        [HttpGet("GetModule")]
+        public async Task<IActionResult> GetModule(GetModuleInputDto input)
+        {
+            var output =await _coursesService.GetModule(input);
+            return Ok(output);
+        }
+        [HttpGet("GetLecture")]
+        public async Task<IActionResult> GetLecture(GetLectureInputDto input)
+        {
+            var output =await _coursesService.GetLecture(input);
+            return Ok(output);
+        }
     }
 }
