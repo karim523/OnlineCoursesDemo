@@ -1,6 +1,7 @@
 ﻿using Domain.ContentContext.IRepository;
 using Microsoft.EntityFrameworkCore;
 using SimpleObjects.ContentContext;
+using SimpleObjects.ContentContext.Enums;
 
 namespace Infrastructure.Repositories
 {
@@ -35,10 +36,16 @@ namespace Infrastructure.Repositories
               _dbContext.Courses.Remove(course);           
         }
 
-        public Task<List<Course>> GetAllCourse()
+        public Task<List<Course>> GetAllCourse(string? title,EContentLevel? level)
         {
-         return  _dbContext.Courses.Include(c=>c.Modules).ThenInclude(m=>m.Lectures).ToListAsync();
+            return _dbContext.Courses
+                   .Where(c => title == null || c.Title.Contains(title))
+                   .Where(c=> level == null || c.Level == level)
+                   .Include(c => c.Modules)
+                   .ThenInclude(m => m.Lectures)
+                   .ToListAsync();
  
         }
     }
-}
+}   
+            

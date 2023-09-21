@@ -4,7 +4,6 @@ using Application.Courses.Dtos.ModuleDtos;
 using Domain;
 using Domain.ContentContext.IRepository;
 using SimpleObjects.ContentContext;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Application.Courses
 {
@@ -317,9 +316,11 @@ namespace Application.Courses
         }
 
 
-        public async Task<List<CourseDto>> GetAllCourse()
+        public async Task<List<CourseDto>> GetAllCourse(GetAllCoursesInputDto inputDto)
         {
-            var courses =await _coursesRepository.GetAllCourse();
+            var courses =await _coursesRepository
+                .GetAllCourse(inputDto.Title, inputDto.Level);
+            
             List<CourseDto> coursesDto = courses.Select(course => new CourseDto
             {
                 CourseId= course.Id,

@@ -87,9 +87,9 @@ namespace OnlineCourseApi.Controllers
 
 
         [HttpGet("GetAllCourses")]
-        public async Task<IActionResult> GetAllCourse()
+        public async Task<IActionResult> GetAllCourse([FromQuery] GetAllCoursesInputDto inputDto)
         {
-            var output= await _coursesService.GetAllCourse();
+            var output= await _coursesService.GetAllCourse(inputDto);
             return Ok(output);
         }
 
