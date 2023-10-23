@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SimpleObjects.ContentContext;
 using SimpleObjects.ContentContext.Enums;
+using SimpleObjects.SubscriptionContext;
 
 namespace Infrastructure.Repositories
 {
@@ -45,6 +46,14 @@ namespace Infrastructure.Repositories
                    .ThenInclude(m => m.Lectures)
                    .ToListAsync();
  
+        }
+
+        public async Task<Course?> GetCourseStudents(Guid courseId)
+        {
+            return await _dbContext.Courses
+                .Include(c => c.Students)
+                .ThenInclude(s => s.Student)
+                .FirstOrDefaultAsync(x => x.Id == courseId);
         }
     }
 }   

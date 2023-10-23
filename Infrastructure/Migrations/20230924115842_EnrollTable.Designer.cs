@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230924115842_EnrollTable")]
+    partial class EnrollTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,25 +25,19 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.SubscriptionContext.CourseEnrollment", b =>
+            modelBuilder.Entity("EnrollToCourse", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CourseId")
+                    b.Property<Guid>("CoursesId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
+                    b.HasKey("CoursesId", "StudentId");
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("CourseEnrollment", (string)null);
+                    b.ToTable("EnrollToCourse");
                 });
 
             modelBuilder.Entity("SimpleObjects.ContentContext.Article", b =>
@@ -330,23 +327,19 @@ namespace Infrastructure.Migrations
                     b.ToTable("StudentSubscription");
                 });
 
-            modelBuilder.Entity("Domain.SubscriptionContext.CourseEnrollment", b =>
+            modelBuilder.Entity("EnrollToCourse", b =>
                 {
-                    b.HasOne("SimpleObjects.ContentContext.Course", "Course")
-                        .WithMany("Courses")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SimpleObjects.SubscriptionContext.Student", "Student")
-                        .WithMany("Courses")
-                        .HasForeignKey("StudentId")
+                    b.HasOne("SimpleObjects.ContentContext.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
+                    b.HasOne("SimpleObjects.SubscriptionContext.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SimpleObjects.ContentContext.CareerItem", b =>
@@ -447,8 +440,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("SimpleObjects.ContentContext.Course", b =>
                 {
-                    b.Navigation("Courses");
-
                     b.Navigation("Modules");
                 });
 
@@ -459,8 +450,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("SimpleObjects.SubscriptionContext.Student", b =>
                 {
-                    b.Navigation("Courses");
-
                     b.Navigation("WatchedLectures");
                 });
 #pragma warning restore 612, 618

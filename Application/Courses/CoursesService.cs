@@ -3,6 +3,7 @@ using Application.Courses.Dtos.LectureDtos;
 using Application.Courses.Dtos.ModuleDtos;
 using Domain;
 using Domain.ContentContext.IRepository;
+using Domain.SubscriptionContext;
 using SimpleObjects.ContentContext;
 
 namespace Application.Courses
@@ -11,12 +12,14 @@ namespace Application.Courses
     {
         private readonly IRepository<Course> _repository;
         private readonly ICourseRepository _coursesRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public CoursesService(IRepository<Course> repository, IUnitOfWork unitOfWork, ICourseRepository coursesRepository)
+        public CoursesService(IRepository<Course> repository, IUnitOfWork unitOfWork, ICourseRepository coursesRepository, IStudentRepository studentRepository)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
             _coursesRepository = coursesRepository;
+            _studentRepository = studentRepository;
         }
 
         public async Task<AddCourseOutputDto> AddCourse(AddCourseInputDto inputDto)
@@ -441,6 +444,36 @@ namespace Application.Courses
                 Title = lecture.Title
             };
             return lectureDto;
+        }
+
+
+        public async Task<StudentOutputDto> GetStudentCourses(GetStudentCourseInputDto input)
+        {
+            var student = await _studentRepository.GetStudentCourses(input.StudentId);
+
+            if (student is null)
+            {
+                return new StudentOutputDto()
+                {
+                    Erorr = "Student is not Exist"
+                };
+            }
+            StudentOutputDto studentOutputDto = new StudentOutputDto()
+            { 
+                StudentId = student.Id,
+                StudentEmail = student.Email,
+                StudentName = student.Name,
+
+                Courses = student.Courses.Select(course => new GetStudentCourseOutputDto()
+                {
+                    CourseId = course.Course.Id,
+                    Tag = course.Course.Tag,
+                    Level = course.Course.Level,
+                    Title = course.Course.Title,
+                    Url = course.Course.Url
+                }).ToList()
+            };
+            return studentOutputDto;
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Domain.SharedContext;
+using Domain.SubscriptionContext;
 using SimpleObjects.ContentContext.Enums;
 using SimpleObjects.NotificationContext;
 
@@ -11,12 +12,14 @@ namespace SimpleObjects.ContentContext
     public class Course : Notifiable,IEntity
     {
         private readonly List<Module> _modules;
+        private readonly List<CourseEnrollment> _students;
 
         public Course(string title, string url, EContentLevel level, string tag)
         {
             SetTitle(title);
             SetUrl(url);
             _modules = new List<Module>();
+            _students = new List<CourseEnrollment>();
             SetLevel(level);
             SetTag(tag);
         }
@@ -30,7 +33,14 @@ namespace SimpleObjects.ContentContext
             {
                 return this._modules.AsReadOnly();
             }
-        } 
+        }
+        public IReadOnlyList<CourseEnrollment> Students
+        {
+            get
+            {
+                return this._students.AsReadOnly();
+            }
+        }
         public int DurationInMinutes { get;private set; }
         public EContentLevel Level { get;private set; }
         public bool AddModule(Module module)
@@ -212,7 +222,7 @@ namespace SimpleObjects.ContentContext
             
             return true;     
         }
-        
+          
         private void CalculateDuration()
         {
             DurationInMinutes = _modules.Sum(m => m.Lectures.Sum(l => l.DurationInMinutes));
@@ -255,7 +265,6 @@ namespace SimpleObjects.ContentContext
             Level = level;
             return true;
         }
-   
         public override string ToString()
         {
             Console.Write( $"Title Course : {Title} - Url Course:{Url} - Duration In Minutes Of Course: {DurationInMinutes} - \n\n\t Modules :");

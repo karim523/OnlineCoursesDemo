@@ -1,6 +1,4 @@
-﻿
-using Domain;
-using SimpleObjects.ContentContext;
+﻿using Domain;
 
 namespace Infrastructure
 {

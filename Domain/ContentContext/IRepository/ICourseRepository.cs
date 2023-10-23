@@ -9,9 +9,10 @@ namespace Domain.ContentContext.IRepository
     public interface ICourseRepository
     {
         void Delete(Course course);
-        Task<Course?> GetCourse(Guid courseId);
-        Task<Lecture?> GetLecture(Guid lectureId);
-        Task<Module?> GetModule(Guid moduleId);
-        Task<List<Course>> GetAllCourse(string? title, EContentLevel? level);
+        Task<Course> GetCourse(Guid courseId);
+        Task<Lecture> GetLecture(Guid lectureId);
+        Task<Module> GetModule(Guid moduleId);
+        Task<List<Course>> GetAllCourse(string title, EContentLevel? level);
+        Task<Course> GetCourseStudents(Guid courseId);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Application.Courses.Dtos.CourseDtos;
 using Application.Courses.Dtos.LectureDtos;
 using Application.Courses.Dtos.ModuleDtos;
-using SimpleObjects.ContentContext;
 
 namespace Application.Courses
 {
@@ -19,12 +18,13 @@ namespace Application.Courses
         Task<DeleteModuleOutputDto> DeleteModule(DeleteModuleInputDto inputDto);
         Task<DeleteLectureOutputDto> DeleteLecture(DeleteLectureInputDto inputDto);
 
-
         Task<List<CourseDto>> GetAllCourse(GetAllCoursesInputDto inputDto);
 
         Task <CourseDto> GetCourse(GetCourseInputDto input);
         Task<GetModuleOutputDto> GetModule(GetModuleInputDto input);
         Task<GetLectureOutputDto> GetLecture(GetLectureInputDto input);
+
+        Task<StudentOutputDto> GetStudentCourses(GetStudentCourseInputDto input);
 
     }
 }

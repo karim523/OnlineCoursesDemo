@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230924150845_EnrollTable3")]
+    partial class EnrollTable3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -333,7 +336,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.SubscriptionContext.CourseEnrollment", b =>
                 {
                     b.HasOne("SimpleObjects.ContentContext.Course", "Course")
-                        .WithMany("Courses")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -447,8 +450,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("SimpleObjects.ContentContext.Course", b =>
                 {
-                    b.Navigation("Courses");
-
                     b.Navigation("Modules");
                 });
 

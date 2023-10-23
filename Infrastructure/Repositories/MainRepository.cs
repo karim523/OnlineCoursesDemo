@@ -18,9 +18,5 @@ namespace Infrastructure.Repositories
 
         }
 
-        public async Task Update(T entity)
-        {
-            _context.Set<T>().Update(entity);
-        }
     }
 }

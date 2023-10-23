@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230924142538_enrollTable20")]
+    partial class enrollTable20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.SubscriptionContext.CourseEnrollment", b =>
+            modelBuilder.Entity("Domain.SubscriptionContext.CourseRegistration", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +43,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("CourseEnrollment", (string)null);
+                    b.ToTable("CourseRegistration", (string)null);
                 });
 
             modelBuilder.Entity("SimpleObjects.ContentContext.Article", b =>
@@ -131,6 +134,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Tag")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -146,6 +152,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Course", (string)null);
                 });
@@ -330,16 +338,16 @@ namespace Infrastructure.Migrations
                     b.ToTable("StudentSubscription");
                 });
 
-            modelBuilder.Entity("Domain.SubscriptionContext.CourseEnrollment", b =>
+            modelBuilder.Entity("Domain.SubscriptionContext.CourseRegistration", b =>
                 {
                     b.HasOne("SimpleObjects.ContentContext.Course", "Course")
-                        .WithMany("Courses")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SimpleObjects.SubscriptionContext.Student", "Student")
-                        .WithMany("Courses")
+                        .WithMany("CoursesRegistration")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -364,6 +372,13 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("SimpleObjects.ContentContext.Course", b =>
+                {
+                    b.HasOne("SimpleObjects.SubscriptionContext.Student", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("StudentId");
                 });
 
             modelBuilder.Entity("SimpleObjects.ContentContext.Lecture", b =>
@@ -447,8 +462,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("SimpleObjects.ContentContext.Course", b =>
                 {
-                    b.Navigation("Courses");
-
                     b.Navigation("Modules");
                 });
 
@@ -460,6 +473,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("SimpleObjects.SubscriptionContext.Student", b =>
                 {
                     b.Navigation("Courses");
+
+                    b.Navigation("CoursesRegistration");
 
                     b.Navigation("WatchedLectures");
                 });

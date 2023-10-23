@@ -1,12 +1,6 @@
-﻿using Infrastructure.Configrations;
-using Infrastructure.Configurations;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using SimpleObjects.ContentContext;
-using SimpleObjects.NotificationContext;
-using SimpleObjects.SharedContext;
 using SimpleObjects.SubscriptionContext;
-using System;
 
 namespace Infrastructure
 {

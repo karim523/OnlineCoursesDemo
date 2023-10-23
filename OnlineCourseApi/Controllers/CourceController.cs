@@ -112,5 +112,13 @@ namespace OnlineCourseApi.Controllers
             var output =await _coursesService.GetLecture(input);
             return Ok(output);
         }
+
+
+        [HttpGet("GetStudentCourses")]
+        public async Task<IActionResult> GetStudentCourses(GetStudentCourseInputDto input)
+        {
+            var output = await _coursesService.GetStudentCourses(input);
+            return Ok(output);
+        }
     }
 }

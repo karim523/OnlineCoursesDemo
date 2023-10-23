@@ -5,6 +5,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Repositories;
 using Domain.ContentContext.IRepository;
+using Domain.SubscriptionContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(
 
 builder.Services.AddTransient(typeof(IRepository<>),typeof(MainRepository<>));
 builder.Services.AddTransient(typeof(ICourseRepository),typeof(CourseRepository));
+builder.Services.AddTransient(typeof(IStudentRepository),typeof(StudentRepository));
 
 builder.Services.AddTransient<ICoursesService, CoursesService>();
 builder.Services.AddTransient<IStudentsService, StudentsService>();
